@@ -3,6 +3,7 @@ import express from 'express';
 import { register, login, getMe, updateDetails, updateProfilePic } from '../controllers/authController.js';
 import { registerValidator, loginValidator } from '../validators/authValidators.js';
 import {protect} from '../helpers/protect.js';
+import  upload from '../middleware/uploadMiddleware.js';
 
 const router = express.Router();
 
