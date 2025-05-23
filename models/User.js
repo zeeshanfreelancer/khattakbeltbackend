@@ -24,38 +24,47 @@ const userSchema = new mongoose.Schema({
     minlength: [6, 'Password must be at least 6 characters'],
     select: false
   },
-    // Additional attributes
-  firstName: {
-    type: String,
-    trim: true,
-  },
-  lastName: {
-    type: String,
-    trim: true,
-  },
-  aboutMe: {
-    type: String,
-    trim: true,
-  },
-  skills: {
-    type: String, // or [String] if stored as an array
-    trim: true,
-  },
-  experience: {
-    type: String,
-    trim: true,
-  },
-  education: {
-    type: String,
-    trim: true,
-  },
-  interests: {
-    type: String, // or [String] if stored as an array
-    trim: true,
-  },
-  profilePic: {
-    type: String, // base64 or URL
-  }
+// Additional attributes
+firstName: {
+  type: String,
+  trim: true,
+  default: ''
+},
+lastName: {
+  type: String,
+  trim: true,
+  default: ''
+},
+aboutMe: {
+  type: String,
+  trim: true,
+  default: ''
+},
+skills: {
+  type: String, // or [String] if stored as an array
+  trim: true,
+  default: ''
+},
+experience: {
+  type: String,
+  trim: true,
+  default: ''
+},
+education: {
+  type: String,
+  trim: true,
+  default: ''
+},
+interests: {
+  type: String, // or [String] if stored as an array
+  trim: true,
+  default: ''
+},
+profilePic: {
+  type: String,
+  default: ''
+}
+
 }, { 
   timestamps: true,
   toJSON: {
