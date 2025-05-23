@@ -1,11 +1,19 @@
-const express = require('express');
+// routes/newsRoutes.js
+import express from 'express';
+import {
+  createNews,
+  getAllNews,
+  getNewsById,
+  updateNews,
+  deleteNews
+} from '../controllers/newsController.js';
+
 const router = express.Router();
-const { protect } = require('../middleware/auth');
-const { createNews, getNews } = require('../controllers/newsController');
-const { upload } = require('../config/cloudinary');
 
-router.route('/')
-  .get(getNews)
-  .post(protect, upload.single('image'), createNews);
+router.post('/', createNews);
+router.get('/', getAllNews);
+router.get('/:id', getNewsById);
+router.put('/:id', updateNews);
+router.delete('/:id', deleteNews);
 
-module.exports = router;
+export default router;
