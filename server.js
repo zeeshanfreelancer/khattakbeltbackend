@@ -14,11 +14,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-
 const app = express();
-// app.use(cors());
 
-// Connect MongoDB
+// MongoDB Connection
 const connectDB = async () => {
   try {
     console.log('Connecting to MongoDB...');
@@ -36,9 +34,10 @@ const connectDB = async () => {
   }
 };
 
+// CORS Configuration
 const allowedOrigins = [
   'https://khattakbelt.site',
-  'https://khattak-belt.railway.app',
+  'https://khattakbeltbackend.onrender.com',
   'http://localhost:5173'
 ];
 
@@ -51,21 +50,9 @@ app.use(cors({
     }
   },
   credentials: true,
-  exposedHeaders: ['Authorization'], // Add this line
+  exposedHeaders: ['Authorization'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
-
-// Optional: preflight handler (you can keep this or remove if CORS already works)
-app.options('*', cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
 }));
 
 app.use(express.json({ limit: '10mb' }));
@@ -86,16 +73,15 @@ app.use('/auth', authRoutes);
 app.use('/news', newsRoutes);
 app.use('/users', userRoutes);
 
-
-// 404 handler
+// 404 Not Found
 app.use((req, res) => {
-  res.status(400).json({
+  res.status(404).json({
     success: false,
     message: 'Endpoint not found'
   });
 });
 
-// Error handler
+// Centralized Error Handling
 app.use((err, req, res, next) => {
   console.error('Server Error:', err.stack);
   res.status(500).json({
@@ -105,6 +91,7 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Server Init
 const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
@@ -116,7 +103,7 @@ connectDB().then(() => {
     console.log('\n🔴 Shutting down server...');
     server.close(() => {
       mongoose.connection.close(false, () => {
-        console.log('MongoDB connection closed');
+        console.log('🛑 MongoDB connection closed');
         process.exit(0);
       });
     });
